@@ -1,0 +1,8 @@
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/socat -u pty,link=/dev/ttyACM0,waitslave,user=octoprint,echo=0 tcp:<IPADDRESS>:3000 
+User=root
+Restart=always
+RestartSec=10
