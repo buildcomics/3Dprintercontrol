@@ -102,6 +102,7 @@ void loop() {
       else if (rec == 'X') { //Enter new speed
         Serial.println("SpeedChange");
         initEnable = true;
+        stepDelay = 0;
       }
     }
     if (rec == 'P' && !pause) { //Pause arm
@@ -113,7 +114,6 @@ void loop() {
       pause = false;
     }
   }
-
 }
 
 //////////////////////////////////////////////////////////////////////////////
