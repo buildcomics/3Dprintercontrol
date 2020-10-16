@@ -4,9 +4,11 @@ import time
 import datetime
 import signal
 import sys
+import threading
 import config as cfg
+#import schedule #https://github.com/dbader/schedule
 import requests
-import gphoto2 as gp #https://pypi.org/project/gphoto2/#install-with-pip, be sure to install libgphoto2-dev!!
+import gphoto2 as gp #https://pypi.org/project/gphoto2/#install-with-pip, be sure to install libphoto2-dev!!
 import flask
 import shutil
 from flask import request, jsonify, send_file
@@ -141,7 +143,7 @@ def api_arm_continue():
     ser.reset_input_buffer()
     ser.write("C\n".encode())
     for i in range(20):
-        print(i)
+        print(i) 
         line = ser.readline()
         print(line)
         if line == b'Continue\r\n':
@@ -159,7 +161,7 @@ def api_arm_pause():
     ser.write("P\n".encode())
     success = False
     for i in range(20):
-        print(i)
+        print(i) 
         line = ser.readline()
         print(line)
         if line == b'Pause\r\n':
@@ -181,12 +183,12 @@ def api_arm_reset():
     ser.write("R\n".encode())
     success = False
     for i in range(20):
-        print(i)
+        print(i) 
         line = ser.readline()
         print(line)
         if line == b'At base position, enter step delay?\r\n':
             print("Arm Reset")
-            succes = True
+            success = True
             break
         else:
             print("resetting...")
@@ -205,7 +207,7 @@ def api_arm_start():
     if job_info["job"]["file"]["name"] == None:
         print("no active file found!")
         return "No active print filename found", 400
-
+    
     matches = re.search("_(\d)+h(\d+)m\.gcode", job_info["job"]["file"]["name"])
     if matches == None:
         prd("no time match, retrying...")
@@ -219,13 +221,13 @@ def api_arm_start():
         minutes = int(matches.group(2)) + (hours*60)
     prd("minutes:")
     prd(str(minutes))
-    step_time_ms = int((minutes*60*1000)/(300*6)) #delay is print time in milliseconds / (300 steps * 6 delays per staps)
+    step_time_ms = int((minutes*60*1000)/300) #delay is print time in milliseconds / 300 steps)
     prd("step time:")
     prd(str(step_time_ms))
     ser.reset_input_buffer()
     success = False
     for i in range(20):
-        prd(str(i))
+        prd(str(i)) 
         line = ser.readline()
         prd(line.decode("utf-8"))
         if line == b'At base position, enter step delay?\r\n':
