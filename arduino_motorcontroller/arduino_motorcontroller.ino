@@ -3,11 +3,9 @@
     https://www.buildcomics.com
     Wire ULN200x module for 28BYJ-48 5V stepper motor to STEPPERPINX defined outputs, and power using 5v/ground.
     Uses about 300 steps for half a rotation, e.g 1 hour print means (60*60)/300 = one step every 12 seconds.
-    Start at switchpoint, one step every 12 seconds.
-    Board ==> Arduino Nan
+    Board ==> Arduino Nano
     Processor ==> Atmega328P (Old Boatloader)
 */
-
 
 #define STEPPERPIN1 2
 #define STEPPERPIN2 3
@@ -20,9 +18,9 @@
 unsigned long int previousMillis;
 const unsigned int interval = 500;
 
-
 int stepSpeed = 1;
-int motorDelay = 0;     //variable to set stepper speed
+int motorDelay = 10;     //set to normal speed
+int stepDelay = 0;     //variable to set stepper speed
 bool initEnable = true; //We start with initialization
 bool positioning = true; //We start with initialization
 bool direction = true; //true = clockwise, false is counterclockwise
@@ -55,24 +53,14 @@ void loop() {
   while (initEnable) {
     Serial.println("At base position, enter step delay?");
     String delayString = Serial.readStringUntil('\n');
-    motorDelay = delayString.toInt();
+    stepDelay = delayString.toInt();
     if (motorDelay > 0) {
       initEnable = false; //Initialization finished
       Serial.print("starting with delay:");
-      Serial.println(motorDelay);
+      Serial.println(stepDelay);
       break;
     }
   }
-
-  /*unsigned long currentMillis = millis();
-    unsigned long timeDif = currentMillis - previousMillis;
-    if (timeDif >= interval) {
-    previousMillis = currentMillis; //reset counter
-
-    }*/
-
-
-
 
   if (!digitalRead(STOPCWPIN) && direction) {
     Serial.println("CW!");
@@ -83,12 +71,18 @@ void loop() {
     direction = true; //reverse direction
   }
 
-  if (!pause) {
-    if (direction) {
-      clockwise();
-    }
-    else {
-      counterclockwise();
+  if (!pause && !initEnable && !positioning) {
+    unsigned long currentMillis = millis();
+    unsigned long timeDif = currentMillis - previousMillis;
+    if (timeDif >= stepDelay) {
+      previousMillis = currentMillis; //reset counter
+      Serial.println("Step!");
+      if (direction) {
+        clockwise();
+      }
+      else {
+        counterclockwise();
+      }
     }
   }
 
@@ -124,8 +118,7 @@ void loop() {
 
 //////////////////////////////////////////////////////////////////////////////
 //set pins to ULN2003 high in sequence from 1 to 4
-//delay "stepSpeed" between each pin setting (to determine speed)
-
+//delay "motorDelay" between each pin setting (to determine speed)
 void counterclockwise () {
   // 1
   digitalWrite(STEPPERPIN1, HIGH);
@@ -180,7 +173,6 @@ void counterclockwise () {
 //////////////////////////////////////////////////////////////////////////////
 //set pins to ULN2003 high in sequence from 4 to 1
 //delay "motorDelay" between each pin setting (to determine speed)
-
 void clockwise() {
   // 1
   digitalWrite(STEPPERPIN4, HIGH);
