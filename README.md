@@ -1,12 +1,14 @@
 # 3D Printer Control
-This is the GitHub repository for the project: https://buildcomics.com/XXXX
-It contains arduino code for the controller of the arm in the folder named "arduino_motorcontroller".\
+This is the GitHub repository for the project: https://buildcomics.com/XXXX \
+You will also find the "instructions"  there! \
+ \
+This repo contains arduino code for the controller of the arm in the folder named "arduino_motorcontroller".\
 There is python3 code and a service file that controls the Arm, Power and DSLR camera.\
 For passing the serial port through a proxy port, use the ser2net_server/client folders containing setup file (examples).
 Bash scripts for the integration with octolapse are in the octolapse directory
 
 ## Models
-Find all the models (with instructions) for the arm and more on \
+Find all the models for the arm and more on \
 thingiverse:\
 or prusaprinters:
 

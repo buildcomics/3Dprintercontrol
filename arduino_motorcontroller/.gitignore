@@ -1,4 +1,4 @@
 *.bin
-.eep
-.elf
-.hex
+*.eep
+*.elf
+*.hex

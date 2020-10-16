@@ -42,11 +42,11 @@ void loop() {
   //First we get back to the starting point
   if (positioning) {
     Serial.println("Initial Positioning...");
-    motorDelay = 5;
+    stepDelay = 5;
     while(digitalRead(STOPCWPIN)) {
       clockwise();
     }
-    motorDelay = 0;
+    stepDelay = 0;
     direction = false;
     positioning = false;
   }
@@ -54,7 +54,7 @@ void loop() {
     Serial.println("At base position, enter step delay?");
     String delayString = Serial.readStringUntil('\n');
     stepDelay = delayString.toInt();
-    if (motorDelay > 0) {
+    if (stepDelay > 0) {
       initEnable = false; //Initialization finished
       Serial.print("starting with delay:");
       Serial.println(stepDelay);
