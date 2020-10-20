@@ -18,9 +18,9 @@
 unsigned long int previousMillis;
 const unsigned int interval = 500;
 
-int stepSpeed = 1;
-int motorDelay = 10;     //set to normal speed
-int stepDelay = 0;     //variable to set stepper speed
+unsigned long stepSpeed = 1;
+unsigned long motorDelay = 10;     //set to normal speed
+unsigned long stepDelay = 0;     //variable to set stepper speed
 bool initEnable = true; //We start with initialization
 bool positioning = true; //We start with initialization
 bool direction = true; //true = clockwise, false is counterclockwise
