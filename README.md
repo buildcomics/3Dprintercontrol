@@ -1,5 +1,5 @@
 # 3D Printer Control
-This is the GitHub repository for the project: https://buildcomics.com/XXXX \
+This is the GitHub repository for the project: https://buildcomics.com/hero/3dp-a-new-hero-and-its-home/ \
 You will also find the "instructions"  there! \
  \
 This repo contains arduino code for the controller of the arm in the folder named "arduino_motorcontroller".\
