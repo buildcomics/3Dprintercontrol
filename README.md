@@ -57,6 +57,14 @@ In the octolapse settings, add the prints start_arm.sh/stop_arm.sh to your camer
 The same goes for the DSLR control if you use it, but use start_snapshot.sh/stop_snapshot.sh scripts. Also add snapshot_acquire.sh to the take snapshot capture script. \
 More info about setting up octolapse using scripts: https://github.com/FormerLurker/Octolapse/wiki/V0.4---Configuring-a-DSLR
 
+### Cameras
+There are two service files to run mjpg_streamer as a systemd daemon. \
+mjpg_streamer.service is for the Logitech C910. \
+mjpg_streamer2.service is for the Logitech C310.\
+1. Copy the files to your systemd directory (for me that is /etc/system/systemd/mjpg_streamer.service).
+2. Enable the service using systemctl start mjpg_streamer
+
+
 ## License
 MIT License
 
